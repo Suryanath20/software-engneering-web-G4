@@ -79,7 +79,11 @@ Each team member is responsible for 3 user stories, along with their matching co
 | **Tamilore Adekanye** | **US-13:** Full Notice Details View<br>**US-14:** Customer Account Management<br>**US-15:** Print Review Report & Export CSV | `NoticesController.cs`<br>`CustomersController.cs`<br>`ReportsController.cs`<br>`CustomerService.cs`<br>`ReportService.cs` | `Views/Notices/`<br>`Views/Customers/`<br>`Views/Reports/` |
 
 ---
+### Tamilore Adekanye — Manual testing
 
+- **US-13:** Opened recall `Z-1706-2015` and checked the device name, manufacturer, recall class and status.
+- **US-14:** Created a test customer account and confirmed it appeared as Active.
+- **US-15:** Opened the review report and downloaded its CSV. Both showed three recall records.
 ## 5. Automated Tests
 
 Run the xUnit test suite (21 unit tests covering all 15 user stories):

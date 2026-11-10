@@ -2,6 +2,8 @@ using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ANDtr.Web.Services;
+using Microsoft.EntityFrameworkCore;
+using ANDtr.Web.Data;
 
 namespace ANDtr.Web.Features.Findings;
 
@@ -11,21 +13,30 @@ public class FindingsController : Controller
     private readonly IReviewService _reviewService;
     private readonly ICommentService _commentService;
     private readonly INoticeSearchService _searchService;
+    private readonly AppDbContext _db;
 
     public FindingsController(
-        IReviewService reviewService,
-        ICommentService commentService,
-        INoticeSearchService searchService)
+     IReviewService reviewService,
+     ICommentService commentService,
+     INoticeSearchService searchService,
+     AppDbContext db)
     {
         _reviewService = reviewService;
         _commentService = commentService;
         _searchService = searchService;
+        _db = db;
     }
+
 
     [HttpGet]
     public async Task<IActionResult> Index(int reviewId, int? noticeId = null)
     {
-        var review = await _reviewService.GetReviewByIdAsync(reviewId);
+
+        var review = _db.RiskReviews
+       .Include(r => r.ReviewNotices).ThenInclude(rn => rn.Notice)
+       .Include(r => r.Shares)
+       .FirstOrDefault(r => r.Id == reviewId);
+
         if (review == null)
         {
             return NotFound();
